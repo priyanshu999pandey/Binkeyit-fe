@@ -62,7 +62,7 @@ const ResetPassword = () => {
 
     try {
       const res = await axios.put(
-        "http://localhost:8080/api/user/reset-password",
+        "https://binkeyit-be.onrender.com/api/user/reset-password",
         {
           email:data.email,
           newPassword:data.password,

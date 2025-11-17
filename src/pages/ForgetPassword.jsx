@@ -31,7 +31,7 @@ const ForgetPassword = () => {
 
     try {
       const res = await axios.put(
-        "http://localhost:8080/api/user/forgot-password",
+        "https://binkeyit-be.onrender.com/api/user/forgot-password",
         data,
         {
           withCredentials: true,
