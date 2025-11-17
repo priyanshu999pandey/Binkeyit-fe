@@ -1,0 +1,95 @@
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import Header from './components/Header'
+import { Routes,Route } from 'react-router-dom'
+import Footer from './components/Footer'
+import Home from './pages/Home'
+import SearchPage from './pages/SearchPage'
+import Register from './pages/Register'
+import { Toaster } from "react-hot-toast";
+import Login from './pages/Login'
+import OtpVerification from './pages/OtpVerification'
+import ForgetPassword from './pages/ForgetPassword'
+import ResetPassword from './pages/ResetPassword'
+import FetchUserDetails from './utils/FetchUserDetails'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { setUserDetails } from './store/userSlice'
+import AccountMenuMobile from './utils/AccountMenuMobile'
+import DashBoard from './layout/DashBoard'
+import Profile from "./pages/Profile" 
+import Myorders from './pages/Myorders'
+import Category from './pages/Category'
+import SubCategory from './pages/SubCategory'
+import UploadProduct from './pages/UploadProduct'
+
+import ProductAdmin from './pages/ProductAdmin'
+import AdminRoutes from './utils/AdminRoutes'
+import Axios from './utils/Axios'
+import { setAllCategory } from './store/productSlics'
+
+function App() {
+  const dispatch = useDispatch();
+
+  const fetchUser = async()=>{
+    const userData = await FetchUserDetails()
+    // console.log(userData)
+    dispatch(setUserDetails(userData?.data))
+  }
+   const fetchData = async () => {
+      try {
+        const res = await Axios.get("/category/fetch-category");
+        // console.log(res?.data?.data);
+        // console.log("before", categoryData);
+        // setCategoryData(res?.data?.data);
+        dispatch(setAllCategory(res?.data?.data))
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+   
+
+  useEffect(()=>{
+    fetchUser()
+    fetchData();
+  },[])
+
+  
+
+  
+
+  return (
+    <>
+    <Header/>
+      <main className=''>
+          <Routes >
+          <Route path='/' element={<Home></Home>} />
+          <Route path='/search' element={<SearchPage></SearchPage>} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/otp-verification' element={<OtpVerification />} />
+          <Route path='/forget-password' element={<ForgetPassword />} />
+          <Route path='/reset-password' element={<ResetPassword />} />
+          <Route path='/user' element={<AccountMenuMobile/>} />
+          <Route path='/dashboard' element={<DashBoard />} >
+            <Route index element={<Profile />} />
+            <Route path='profile' element={<Profile />} />
+            <Route path='my-orders' element={<Myorders />} />
+            <Route path='category' element={<AdminRoutes> <Category /></AdminRoutes>} />
+             <Route path='subCategory' element={<AdminRoutes><SubCategory /></AdminRoutes>} />
+            <Route path='upload-product' element={<AdminRoutes><UploadProduct/></AdminRoutes>} />
+            <Route path='product' element={<AdminRoutes><ProductAdmin /></AdminRoutes>} />
+          </Route>
+
+        </Routes>
+      </main>
+    <Footer/>
+    <Toaster position="top-right" reverseOrder={false} />
+    </>
+    
+  )
+}
+
+export default App
