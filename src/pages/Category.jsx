@@ -8,39 +8,22 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { removeCategory } from "../store/productSlics";
 
-
-
 const Category = () => {
-  const dispatch = useDispatch()
-   const categoryData = useSelector((state)=>state.product.allCategory)
-  // console.log(productData)
+
+  const dispatch = useDispatch();
+  const categoryData = useSelector((state) => state.product.allCategory);
+  console.log("=======",categoryData)
   const [openModal, setOpenModal] = useState(false);
   // const [categoryData, setCategoryData] = useState([]); // <-- changed null -> []
-   
+
   //  setCategoryData(productData)
-   console.log('data....',categoryData)
+  console.log("data....", categoryData);
   const [editCategory, setEditCategory] = useState(false);
   const [cardData, setCardData] = useState({
     name: "",
     image: "",
+    id:"",
   });
-
-  // const fetchData = async () => {
-  //   try {
-  //     const res = await Axios.get("/category/fetch-category");
-  //     console.log(res?.data?.data);
-  //     console.log("before", categoryData);
-  //     setCategoryData(res?.data?.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-
-  
 
   // lock body scroll as before
   useEffect(() => {
@@ -49,7 +32,9 @@ const Category = () => {
     } else {
       document.body.style.overflow = "auto";
     }
-    return () => { document.body.style.overflow = "auto"; };
+    return () => {
+      document.body.style.overflow = "auto";
+    };
   }, [openModal, editCategory]);
 
   const handleDeleteCategory = async (id) => {
@@ -69,7 +54,7 @@ const Category = () => {
   };
 
   return (
-    <section >
+    <section>
       <div className="shadow-md p-4 flex justify-between items-center   ">
         <h1>Category</h1>
         <button
@@ -81,9 +66,9 @@ const Category = () => {
       </div>
       <div className="p-4">
         {openModal && <AddCategoryModal close={setOpenModal} />}
-        {
-          editCategory && <EditCategory close={setEditCategory} cardData={cardData} />
-        }
+        {editCategory && (
+          <EditCategory close={setEditCategory} cardData={cardData} />
+        )}
       </div>
 
       <div className="grid gap-8 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 p-4 ">
@@ -109,7 +94,7 @@ const Category = () => {
                           setCardData({
                             name: product?.name,
                             image: product?.image,
-                            id:product?._id
+                            id: product?._id,
                           });
                         }}
                       >
@@ -117,7 +102,12 @@ const Category = () => {
                       </button>
                     </div>
                     <div className="bg-red-100 px-4 py-1 hover:bg-red-200 rounded">
-                      <button className="text-red-500" onClick={()=>handleDeleteCategory(product?._id)} >Delete</button>
+                      <button
+                        className="text-red-500"
+                        onClick={() => handleDeleteCategory(product?._id)}
+                      >
+                        Delete
+                      </button>
                     </div>
                   </div>
                 </div>

@@ -3,7 +3,7 @@ import axios from "axios";
 
 // ✅ Create axios instance
 const Axios = axios.create({
-  baseURL: "https://binkeyit-be.onrender.com/api/", // 🔹 Apna backend base URL yahan likho
+  baseURL: "http://localhost:8080/api/", // 🔹 Apna backend base URL yahan likho
   withCredentials: true, // agar backend cookies bhejta hai to use true rakho
 });
 
@@ -53,7 +53,7 @@ Axios.interceptors.response.use((response)=>{ return response},
 
 const refreshAccessToken = async (refreshToken) => {
   try {
-    const response = await Axios.put("https://binkeyit-be.onrender.com/api/user/refresh-token",{},                      // PUT body empty — backend sirf header/cookie se token read karega
+    const response = await Axios.put("http://localhost:8080/api/user/refresh-token",{},                      // PUT body empty — backend sirf header/cookie se token read karega
       {
         headers: {
           Authorization: `Bearer ${refreshToken}`,

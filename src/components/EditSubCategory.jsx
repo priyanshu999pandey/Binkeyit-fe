@@ -1,39 +1,39 @@
-
-
 import React, { useEffect, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 import Axios from "../utils/Axios";
 import toast from "react-hot-toast";
 import { use } from "react";
-import { useDispatch } from "react-redux";
-import {setAllCategory} from "../store/productSlics"
+import Category from "../pages/Category";
+import { useDispatch, useSelector } from "react-redux";
+import { setsubCategory } from "../store/productSlics";
 
-
-const AddCategoryModal = (props) => {
+const EditSubCategory = (props) => {
   const dispatch = useDispatch()
-  const [data, setData] = useState({
-    name: "",
-    image: null, // store File
-  });
-  console.log(data)
+  const categoryList = useSelector((state) => state.product.allCategory);
+  console.log(props);
+  console.log("subCategory Data", categoryList);
 
-  const [preview, setPreview] = useState(null); // data url for preview
+  const [data, setData] = useState({
+    name: props?.data?.name,
+    image: props?.data?.image,
+    category: props?.data?.category,
+  });
+
+  const [preview, setPreview] = useState(props?.data?.image); // data url for preview
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
-    console.log(e)
-    const { value, name } = e.target; 
+    const { value, name } = e.target;
     setData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleImgChange = (e) => {
     setError("");
-    console.log(e)
+    console.log(e);
     const file = e.target.files?.[0];
-    console.log(file)
+    console.log(file);
     if (!file) return;
-
 
     setData((prev) => ({ ...prev, image: file }));
 
@@ -56,28 +56,34 @@ const AddCategoryModal = (props) => {
       return;
     }
 
+    const ids = data.category.map((item) => item._id);
+    console.log(ids);
+
     const formData = new FormData();
     formData.append("name", data.name.trim());
     formData.append("image", data.image); // backend expects field 'image'
+    formData.append("category", ids); // backend expects field 'image'
+     
 
     try {
       setLoading(true);
-      const res = await Axios.post("/category/add-category", formData, {
+      const res = await Axios.put(`/subCategory/update-subCategory/${props?.data._id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
-      });
-      console.log("Response:", res?.data);
-      dispatch(setAllCategory(res?.data?.data))
+
        
+
+      });
+
       // success
-      
+      console.log("Response:", res.data);
+        dispatch(setsubCategory(res?.data))
       // optionally show toast here
-      toast.success("category created successfully")
+      toast.success("category updated successfully");
       // reset and close modal
-         
-      setData({ name: "", image: null });
+
+      setData({ name: "", image: "", category: [] });
       setPreview(null);
       props.close(false); // as in your original component
-      
     } catch (err) {
       console.error(err);
       const msg = err?.response?.data?.message || "Upload failed. Try again.";
@@ -87,8 +93,20 @@ const AddCategoryModal = (props) => {
     }
   };
 
-  
+  const handleDeleteSelectedCategory = (categoryId) => {
+    //  const categoryToDelete = data.category.find((cat)=> cat._id===categoryId)
+    const afterDeletedSelectedCategory = data.category.filter(
+      (el) => el._id !== categoryId
+    );
+    setData((prev) => {
+      return {
+        ...prev,
+        category: afterDeletedSelectedCategory,
+      };
+    });
+  };
 
+  //  console.log("subCategory Selcted Daata",data.category)
   return (
     <section className="fixed inset-0 bg-black/60 flex justify-center items-center z-50">
       <div className="max-w-[70vw] w-full bg-white p-4 rounded shadow">
@@ -122,14 +140,62 @@ const AddCategoryModal = (props) => {
               {preview ? (
                 // preview box
                 // tailwind: object-contain so the image fits
-                <img src={preview} alt="preview" className="max-h-40 object-cover" />
+                <img
+                  src={preview}
+                  alt="preview"
+                  className="max-h-40 object-fit"
+                />
               ) : (
                 <p className="text-sm text-gray-500">No image</p>
               )}
             </div>
 
+            <div className="mb-5">
+              {/* <label htmlFor="sc">Select Category</label> */}
+              {/* display value */}
+              <div className="flex justify-start items-center gap-2 my-5">
+                {data.category.map((selectedCat, ind) => {
+                  return (
+                    <div className="px-2 py-0.5 bg-blue-100 rounded flex justify-center items-center">
+                      <p>{selectedCat?.name}</p>
+                      <button
+                        onClick={() =>
+                          handleDeleteSelectedCategory(selectedCat._id)
+                        }
+                      >
+                        <IoCloseSharp size={20}></IoCloseSharp>
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* display category */}
+              <select
+                className="w-full focus-within:outline-none border border-blue-300 bg-blue-100 py-1 px-2 rounded "
+                id="sc"
+                onChange={(e) => {
+                  const value = e.target.value;
+                  const categoryDetail = categoryList.find(
+                    (el) => el._id == value
+                  );
+                  setData((prev) => {
+                    return {
+                      ...prev,
+                      category: [...prev.category, categoryDetail],
+                    };
+                  });
+                }}
+              >
+                <option value={""}>Select category</option>
+                {categoryList.map((cate, ind) => {
+                  return <option value={cate?._id}>{cate?.name}</option>;
+                })}
+              </select>
+            </div>
+
             <div className="flex items-center gap-3">
-              <label htmlFor="categoryImage">
+              <label htmlFor="subcategoryImage">
                 <div
                   className={`text-center lg:w-50 mt-1 px-4 py-1 rounded cursor-pointer ${
                     !data.name ? "bg-gray-500" : "bg-yellow-500"
@@ -140,7 +206,7 @@ const AddCategoryModal = (props) => {
               </label>
               <input
                 type="file"
-                id="categoryImage"
+                id="subcategoryImage"
                 className="hidden"
                 accept="image/*"
                 onChange={handleImgChange}
@@ -151,7 +217,9 @@ const AddCategoryModal = (props) => {
                 type="submit"
                 disabled={!data.name || !data.image || loading}
                 className={`ml-2 px-4 py-1 rounded ${
-                  !data.name || !data.image || loading ? "bg-gray-300" : "bg-green-500 text-white"
+                  !data.name || !data.image || loading
+                    ? "bg-gray-300"
+                    : "bg-blue-500 text-white"
                 }`}
               >
                 {loading ? "Uploading..." : "Save"}
@@ -160,11 +228,11 @@ const AddCategoryModal = (props) => {
               <button
                 type="button"
                 onClick={() => {
-                  setData({ name: "", image: null });
+                  setData({ name: "", image: "", category: [] });
                   setPreview(null);
                   setError("");
                 }}
-                className="ml-2 px-4 py-1 rounded bg-red-300"
+                className="ml-2 px-4 py-1 rounded bg-red-200"
               >
                 Reset
               </button>
@@ -178,5 +246,4 @@ const AddCategoryModal = (props) => {
   );
 };
 
-export default AddCategoryModal;
-
+export default EditSubCategory;

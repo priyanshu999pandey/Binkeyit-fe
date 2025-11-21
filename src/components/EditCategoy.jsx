@@ -15,12 +15,12 @@ const EditCategory = (props) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    // update local state if props change (when you open with a different card)
-    setData({ name: props?.cardData?.name || "", image: null });
-    setPreview(props?.cardData?.image || null);
-    setError("");
-  }, [props?.cardData]);
+  // useEffect(() => {
+  //   // update local state if props change (when you open with a different card)
+  //   setData({ name: props?.cardData?.name || "", image: null });
+  //   setPreview(props?.cardData?.image || null);
+  //   setError("");
+  // }, [props?.cardData]);
 
   const handleChange = (e) => {
     const { value, name } = e.target;
@@ -95,7 +95,7 @@ const EditCategory = (props) => {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block mb-1" htmlFor="categoryName">
-              Name:
+               Name:
             </label>
             <input
               type="text"

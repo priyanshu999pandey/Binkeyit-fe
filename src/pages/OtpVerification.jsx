@@ -40,7 +40,7 @@ const OtpVerification = () => {
 
     try {
       const res = await axios.put(
-        "https://binkeyit-be.onrender.com/api/user/verify-forgot-password",
+        "http://localhost:8080/api/user/verify-forgot-password",
         {
           otp:data.join(""),
           email:location?.state?.email

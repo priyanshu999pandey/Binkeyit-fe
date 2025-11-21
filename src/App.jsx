@@ -34,13 +34,14 @@ function App() {
 
   const fetchUser = async()=>{
     const userData = await FetchUserDetails()
-    // console.log(userData)
+    console.log(userData)
     dispatch(setUserDetails(userData?.data))
   }
    const fetchData = async () => {
       try {
         const res = await Axios.get("/category/fetch-category");
-        // console.log(res?.data?.data);
+       
+        console.log("app wala data",res?.data?.data);
         // console.log("before", categoryData);
         // setCategoryData(res?.data?.data);
         dispatch(setAllCategory(res?.data?.data))

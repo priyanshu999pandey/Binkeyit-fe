@@ -6,9 +6,11 @@ import Axios from "../utils/Axios";
 import toast from "react-hot-toast";
 import { use } from "react";
 import Category from "../pages/Category";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setsubCategory } from "../store/productSlics";
 
 const AddSubCategoryModal = (props) => {
+  const dispatch = useDispatch()
   const categoryList = useSelector((state)=>state.product.allCategory)
   const [data, setData] = useState({
     name: "",
@@ -68,11 +70,12 @@ const AddSubCategoryModal = (props) => {
       const res = await Axios.post("/subCategory/add-subCategory", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-
+      
+      dispatch(setsubCategory(res?.data?.data))
       // success
-      console.log("Response:", res.data);
+      console.log("Response:", res?.data.data);
       // optionally show toast here
-      toast.success("category created successfully")
+      toast.success("sub Category created successfully")
       // reset and close modal
          
       setData({ name: "", image: "",category:[] });
@@ -108,7 +111,7 @@ const AddSubCategoryModal = (props) => {
     <section className="fixed inset-0 bg-black/60 flex justify-center items-center z-50">
       <div className="max-w-[70vw] w-full bg-white p-4 rounded shadow">
         <div className="flex justify-between items-center my-4">
-          <h1 className="font-semibold">Category</h1>
+          <h1 className="font-semibold">Sub Category</h1>
           <button onClick={() => props.close(false)}>
             <IoCloseSharp size={30} />
           </button>

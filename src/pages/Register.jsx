@@ -40,7 +40,7 @@ const Register = () => {
 
     try {
       const res = await axios.post(
-        "https://binkeyit-be.onrender.com/api/user/register",
+        "http://localhost:8080/api/user/register",
         data,
         {
           withCredentials: true,
