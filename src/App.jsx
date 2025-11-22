@@ -27,9 +27,11 @@ import UploadProduct from './pages/UploadProduct'
 import ProductAdmin from './pages/ProductAdmin'
 import AdminRoutes from './utils/AdminRoutes'
 import Axios from './utils/Axios'
-import { setAllCategory } from './store/productSlics'
+import { setAllCategory, setLoadingCategory } from './store/productSlics'
+
 
 function App() {
+  const loading = useSelector((state)=>state.product.loadingCategory)
   const dispatch = useDispatch();
 
   const fetchUser = async()=>{
@@ -38,6 +40,7 @@ function App() {
     dispatch(setUserDetails(userData?.data))
   }
    const fetchData = async () => {
+       setLoadingCategory(true)
       try {
         const res = await Axios.get("/category/fetch-category");
        
@@ -45,6 +48,7 @@ function App() {
         // console.log("before", categoryData);
         // setCategoryData(res?.data?.data);
         dispatch(setAllCategory(res?.data?.data))
+        setLoadingCategory(false)
       } catch (error) {
         console.log(error);
       }
