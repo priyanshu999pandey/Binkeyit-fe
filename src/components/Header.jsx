@@ -33,7 +33,7 @@ const Header = () => {
   }
 
   return (
-    <header className="  h-24 py-2 px-3 lg:h-20 lg:py-4 shadow-md sticky top-0 bg-slate-100">
+    <header className="  h-24 py-2 px-3 lg:h-20 lg:py-4 shadow-md sticky top-0 bg-slate-100 z-90">
       {!(isSearhPage && isMobile) && (
         <div className="  w-full container mx-auto  flex justify-between items-center">
           {/* logo */}

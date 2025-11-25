@@ -27,7 +27,9 @@ import UploadProduct from './pages/UploadProduct'
 import ProductAdmin from './pages/ProductAdmin'
 import AdminRoutes from './utils/AdminRoutes'
 import Axios from './utils/Axios'
-import { setAllCategory, setLoadingCategory } from './store/productSlics'
+import { setAllCategory, setLoadingCategory, setsubCategory } from './store/productSlics'
+import ProductListPage from './pages/ProductListPage'
+import ProductDisplayPage from './pages/ProductDisplayPage'
 
 
 function App() {
@@ -40,15 +42,19 @@ function App() {
     dispatch(setUserDetails(userData?.data))
   }
    const fetchData = async () => {
-       setLoadingCategory(true)
+       
       try {
+        dispatch(setLoadingCategory(true))
         const res = await Axios.get("/category/fetch-category");
+        const subCat = await Axios.get("/subCategory/fetch-subCategory");
        
         console.log("app wala data",res?.data?.data);
+        console.log("subdata",subCat)
         // console.log("before", categoryData);
         // setCategoryData(res?.data?.data);
         dispatch(setAllCategory(res?.data?.data))
-        setLoadingCategory(false)
+        dispatch(setsubCategory(subCat?.data?.data))
+        dispatch(setLoadingCategory(false))
       } catch (error) {
         console.log(error);
       }
@@ -68,7 +74,7 @@ function App() {
   return (
     <>
     <Header/>
-      <main className=''>
+      <main className='min-h-[78vh]'>
           <Routes >
           <Route path='/' element={<Home></Home>} />
           <Route path='/search' element={<SearchPage></SearchPage>} />
@@ -78,6 +84,9 @@ function App() {
           <Route path='/forget-password' element={<ForgetPassword />} />
           <Route path='/reset-password' element={<ResetPassword />} />
           <Route path='/user' element={<AccountMenuMobile/>} />
+          <Route path=':category/:subcategory' element={<ProductListPage/>} />
+          <Route path='/product/:product' element={<ProductDisplayPage/>} />
+
           <Route path='/dashboard' element={<DashBoard />} >
             <Route index element={<Profile />} />
             <Route path='profile' element={<Profile />} />

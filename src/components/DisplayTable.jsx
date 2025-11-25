@@ -112,7 +112,7 @@ const DisplayTable = ({ data, index }) => {
           <img src={data.image} className="w-10" />
         </div>
         <div className="w-[25%] border-r text-center pt-3 flex  justify-center items-center  ">
-          {data?.category?.[0]?.name}
+          {data?.category[0]?.name}
         </div>
         <div className="w-[25%] border-r gap-5 pt-3 flex  justify-center items-center ">
           <button
