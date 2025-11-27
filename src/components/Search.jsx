@@ -7,6 +7,10 @@ import useMobile from '../hooks/useMobile';
 const Search = () => {
     const navigate = useNavigate();
     const [isMobile] = useMobile();
+    const param = useLocation()
+
+    const search = param.search.slice(3)
+    console.log("search",search)
 
     const redirectToSearchPage = ()=>{
         navigate("/search")
@@ -20,6 +24,13 @@ const Search = () => {
         const isSearchPage = location.pathname === "/search"
         setIsSearchPage(isSearchPage);
     },[location])
+
+    const handleChange = (e) =>{
+        const value = e.target.value
+        const url = `search?q=${value}`
+        console.log(url)
+        navigate(url)
+    }
 
     // console.log(isSearchPage)
 
@@ -71,12 +82,15 @@ const Search = () => {
                      placeholder='search like atta or milk...'
                      autoFocus
                      className='w-full h-full outline-none'
+                     defaultValue={search}
+                     onChange={handleChange}
                     //  onFocus={}
                     />
                </div>
             )
         }
        </div>
+      
     </div>
   )
 }
