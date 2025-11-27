@@ -30,6 +30,7 @@ import Axios from './utils/Axios'
 import { setAllCategory, setLoadingCategory, setsubCategory } from './store/productSlics'
 import ProductListPage from './pages/ProductListPage'
 import ProductDisplayPage from './pages/ProductDisplayPage'
+import Product from './pages/Product'
 
 
 function App() {
@@ -48,8 +49,8 @@ function App() {
         const res = await Axios.get("/category/fetch-category");
         const subCat = await Axios.get("/subCategory/fetch-subCategory");
        
-        console.log("app wala data",res?.data?.data);
-        console.log("subdata",subCat)
+        // console.log("app wala data",res?.data?.data);
+        // console.log("subdata",subCat)
         // console.log("before", categoryData);
         // setCategoryData(res?.data?.data);
         dispatch(setAllCategory(res?.data?.data))
@@ -85,6 +86,8 @@ function App() {
           <Route path='/reset-password' element={<ResetPassword />} />
           <Route path='/user' element={<AccountMenuMobile/>} />
           <Route path=':category/:subcategory' element={<ProductListPage/>} />
+          <Route path='/:category' element={<Product/>} />
+          
           <Route path='/product/:product' element={<ProductDisplayPage/>} />
 
           <Route path='/dashboard' element={<DashBoard />} >

@@ -548,6 +548,7 @@ const UploadProduct = () => {
 
         <button disabled={loading}>{loading ? "Creating..." : "submit"}</button>
       </form>
+      
       {openAddField && (
         <AddFieldsComponent
           value={fieldName}

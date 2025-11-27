@@ -11,7 +11,7 @@ const CardProduct = ({data}) => {
         <div className='min-h-25 bg-white'>
             <img src={data.image[0]} className='h-full w-full object-scale-down   ' />
         </div>
-        <div className='  text-green-800  text-sm '>10 min</div>
+        <div className='  rounded-full w-fit px-4 py-1 text-green600 bg-green-200  text-sm '>10 min</div>
         <div className='text-sm line-clamp-2'>{data.name}</div>
         <div className='text-sm mb-4 text-gray-400 '>{data.unit}</div>
 

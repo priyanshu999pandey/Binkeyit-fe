@@ -66,11 +66,11 @@ const ProductAdmin = () => {
          
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 p-4  gap-10 min-h-[78vh] ">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 p-4  gap-10 min-h-[78vh]  ">
         {
           productData.map((product,index)=>{
             return(
-              <ProductCardAdmin data={product} />
+              <ProductCardAdmin data={product}  />
             )
           })
         }

@@ -38,7 +38,7 @@ const Home = () => {
 
    navigate(url)
 
-  // console.log(cat);
+  console.log("category",category);
   
 
   //  console.log("subCategoryId",subCategoryId)

@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Axios from "../utils/Axios";
 import CardLoading from "./CardLoading";
 import CardProduct from "./CardProduct";
 import { GoTriangleLeft, GoTriangleRight } from "react-icons/go";
+import ValidUrlConvert from "../utils/ValidUrlConvert";
 
 const CategoryWiseProductDisplay = ({ id,name }) => {
+  const navigate = useNavigate()
+  console.log("id-name",id,name)
   const  scrollRef = useRef()
     const [data,setData] = useState([])
     const [loading,setLoading] = useState(false)
@@ -14,7 +17,7 @@ const CategoryWiseProductDisplay = ({ id,name }) => {
         try {
             setLoading(true)
             const res = await Axios.post("/product/get-productByCategory",{id})
-            console.log(res)
+            console.log("response",res.data)
             setData(res?.data?.data)
             setLoading(false)
             
@@ -35,13 +38,15 @@ const CategoryWiseProductDisplay = ({ id,name }) => {
       scrollRef.current.scrollLeft -=400
     }
 
+    console.log("data",data);
+    
     const loadingCardNo = new Array(7).fill(null)
 
   return (
     <div>
       <div className="flex justify-between items-center  relative">
         <h3 className="font-semibold lg:text-xl">{name}</h3>
-        <Link to="" className="text-green-600 hover:text-green-400">
+        <Link to={`/${ValidUrlConvert(name)}-${id}`} className="text-green-600 hover:text-green-400">
           {" "}
           See All
         </Link>
@@ -59,7 +64,7 @@ const CategoryWiseProductDisplay = ({ id,name }) => {
       }
       </div>
 
-      <div className="flex items-center gap-2 md:gap-4 lg:gap-6 overflow-x-auto s p-4 scrollbar-hide  scroll-smooth" ref={scrollRef}>
+      <div className="flex items-center gap-2 md:gap-4 lg:gap-6 overflow-x-auto  p-4 scrollbar-hide  scroll-smooth" ref={scrollRef}>
             {
                 data.map((p,index)=>{
                    return <div className="">
