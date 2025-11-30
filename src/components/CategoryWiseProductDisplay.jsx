@@ -8,8 +8,8 @@ import ValidUrlConvert from "../utils/ValidUrlConvert";
 
 const CategoryWiseProductDisplay = ({ id,name }) => {
   const navigate = useNavigate()
-  console.log("id-name",id,name)
-  const  scrollRef = useRef()
+  // console.log("id-name",id,name)
+  const scrollRef = useRef()
     const [data,setData] = useState([])
     const [loading,setLoading] = useState(false)
 
@@ -17,7 +17,7 @@ const CategoryWiseProductDisplay = ({ id,name }) => {
         try {
             setLoading(true)
             const res = await Axios.post("/product/get-productByCategory",{id})
-            console.log("response",res.data)
+            // console.log("response",res.data)
             setData(res?.data?.data)
             setLoading(false)
             
@@ -38,7 +38,7 @@ const CategoryWiseProductDisplay = ({ id,name }) => {
       scrollRef.current.scrollLeft -=400
     }
 
-    console.log("data",data);
+    // console.log("data",data);
     
     const loadingCardNo = new Array(7).fill(null)
 

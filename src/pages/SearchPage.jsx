@@ -10,9 +10,9 @@ import nothingimg from "../assets/nothing here yet.webp"
 
 const SearchPage = () => {
 
-  const params = useParams()
+  
   const param = useLocation()
-  console.log("params",params)
+  // console.log("params",params)
   // console.log("useLocation",param);
 
   const search = param.search.slice(3)

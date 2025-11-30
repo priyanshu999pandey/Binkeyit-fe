@@ -23,6 +23,7 @@ import Myorders from './pages/Myorders'
 import Category from './pages/Category'
 import SubCategory from './pages/SubCategory'
 import UploadProduct from './pages/UploadProduct'
+import { handleAddItemCart } from './store/cartProductSlice'
 
 import ProductAdmin from './pages/ProductAdmin'
 import AdminRoutes from './utils/AdminRoutes'
@@ -31,6 +32,7 @@ import { setAllCategory, setLoadingCategory, setsubCategory } from './store/prod
 import ProductListPage from './pages/ProductListPage'
 import ProductDisplayPage from './pages/ProductDisplayPage'
 import Product from './pages/Product'
+import GlobalProvider from './provider/GlobalProvider'
 
 
 function App() {
@@ -39,10 +41,10 @@ function App() {
 
   const fetchUser = async()=>{
     const userData = await FetchUserDetails()
-    console.log(userData)
+    // console.log(userData)
     dispatch(setUserDetails(userData?.data))
   }
-   const fetchData = async () => {
+   const fetchCategoryData = async () => {
        
       try {
         dispatch(setLoadingCategory(true))
@@ -59,13 +61,16 @@ function App() {
       } catch (error) {
         console.log(error);
       }
-    };
+  };
+
+
   
    
 
   useEffect(()=>{
     fetchUser()
-    fetchData();
+    fetchCategoryData();
+    // fetchCartData()
   },[])
 
   
@@ -73,7 +78,7 @@ function App() {
   
 
   return (
-    <>
+    <GlobalProvider>
     <Header/>
       <main className='min-h-[78vh]'>
           <Routes >
@@ -104,7 +109,7 @@ function App() {
       </main>
     <Footer/>
     <Toaster position="top-right" reverseOrder={false} />
-    </>
+    </GlobalProvider>
     
   )
 }

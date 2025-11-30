@@ -9,13 +9,51 @@ import { useSelector } from "react-redux";
 import { VscTriangleDown } from "react-icons/vsc";
 import AccountMenu from "../utils/AccountMenu";
 import { VscTriangleUp } from "react-icons/vsc";
+import Axios from "../utils/Axios";
 
 const Header = () => {
+  const cartItem = useSelector((state)=>state.cart.cartItem)
+  console.log(cartItem)
+  // const c = useSelector((state)=>state.product.allCategory)
+  // console.log("CartQUANTITY",cartItem);
+
+  // const fetchproductPrice = async()=>{
+  //   try {
+  //      const res = await Axios.get("/cart/get")
+  //      console.log("price res",res);
+       
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+  
   const navigate = useNavigate()
 
   const [isOpenMenu,setIsOpenMenu] = useState(false);
   const [isMobile] = useMobile();
+  const [cartQuantity,setCartQuantity] = useState(0)
+  const [price,setPrice] = useState(0)
   // console.log("isMObile", isMobile);
+
+  const calculateCartItem = ()=>{
+
+    const cartQty = cartItem.reduce((accu,item)=>{
+      return accu + item.quantity
+     },0)
+    const finalPrice = cartItem.reduce((accu,item)=>{
+      return accu + item.productId.price
+     },0)
+    //  console.log("cartQYT",cartQty)
+    //  console.log("price",price)
+
+     setCartQuantity(cartQty)
+     setPrice(finalPrice)
+  }
+
+  useEffect(()=>{
+       calculateCartItem()
+      //  fetchproductPrice()
+  },[cartItem])
 
   const location = useLocation();
   const { user } = useSelector((state) => state?.user);
@@ -91,7 +129,15 @@ const Header = () => {
                 <div className="animate-bounce ">
                   <GiShoppingCart size={28} />
                 </div>
-                <p>My cart</p>
+                {
+                  cartItem[0]?(<div>
+                    <p> {cartQuantity}</p>
+                    <p>₹{Number(price)}.00</p>
+                  </div>):
+                  (<div>
+                    <p>My cart</p>
+                  </div>)
+                }
               </div>
             </div>
           </div>

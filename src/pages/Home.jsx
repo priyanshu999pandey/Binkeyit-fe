@@ -13,9 +13,9 @@ const Home = () => {
   const loading = useSelector((state)=>state.product.loadingCategory)
   const category = useSelector((state)=>state.product.allCategory)
   const subCategory = useSelector((state)=>state.product.subCategory)
-  console.log("sub",subCategory)
-  console.log("cat",category)
-  console.log(loading)
+  // console.log("sub",subCategory)
+  // console.log("cat",category)
+  // console.log(loading)
   
   const handleRedirectProductListPage = (id,cat)=>{
    console.log(id,cat)
@@ -70,7 +70,7 @@ const Home = () => {
             {
               category.map((cat,index)=>{
               
-                return(<div className='h-full flex justify-center items-center ' onClick={()=>handleRedirectProductListPage(cat._id,cat.name)}>
+                return(<div key={"cat0"+index} className='h-full flex justify-center items-center ' onClick={()=>handleRedirectProductListPage(cat._id,cat.name)}>
                     <div className=''>
                       <img src={cat.image} className=' ' />
                     </div>
@@ -86,7 +86,7 @@ const Home = () => {
        <div >
        {
         category.map((c,index)=>{
-          return <CategoryWiseProductDisplay id={c._id} name={c.name} />
+          return <CategoryWiseProductDisplay key={"abc"+index} id={c._id} name={c.name} />
         })
        }
        </div>

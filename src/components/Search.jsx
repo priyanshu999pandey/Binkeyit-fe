@@ -10,7 +10,7 @@ const Search = () => {
     const param = useLocation()
 
     const search = param.search.slice(3)
-    console.log("search",search)
+    // console.log("search",search)
 
     const redirectToSearchPage = ()=>{
         navigate("/search")
