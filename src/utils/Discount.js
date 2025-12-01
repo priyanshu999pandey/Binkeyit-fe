@@ -1,4 +1,4 @@
- export const  priceWithDiscount = (price,discount=0)=>{
+ export const  priceWithDiscount = (price,discount=1)=>{
     console.log("price",price);
     console.log ("discount",discount);
    

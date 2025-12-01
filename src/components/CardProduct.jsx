@@ -9,38 +9,7 @@ import { useGlobalContext } from "../provider/GlobalProvider";
 import AddToCart from "./AddToCartButton";
 
 const CardProduct = ({ data }) => {
-  const dispatch = useDispatch();
-  const {fetchCartData} = useGlobalContext()
-  // console.log("image", data);
-  const [loading, setLoading] = useState(false);
-
-  const handleADDTocart = async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    try {
-      setLoading(true);
-
-      const res = await Axios.post("/cart/create", {
-        productId: data?._id,
-      });
-
-      console.log("cart response", res);
-
-      if (res?.data?.success) {
-         if(fetchCartData){
-          fetchCartData()
-         }
-        toast.success(res?.data?.message);
-      } else {
-        toast.error(error?.response?.data?.message);
-      }
-    } catch (error) {
-      toast.error(error?.response?.data?.message);
-      console.log(error);
-    }
-  };
-
+  
   const url = `/product/${ValidUrlConvert(data?.name)}-${ValidUrlConvert(
     data?._id
   )}`;
@@ -64,13 +33,8 @@ const CardProduct = ({ data }) => {
 
       <div className="flex justify-between items-center">
         <div className=" font-semibold ">₹{data.price}.00</div>
-        <div
-          onClick={handleADDTocart}
-          className="text-center text-white px-4 py-1 bg-green-800 hover:bg-green-500 rounded "
-        >
-          {" "}
-        <AddToCart handleADDTocart={handleADDTocart} data={data} />
-        </div>
+       
+         <AddToCart  data={data} />
       </div>
     </Link>
   );

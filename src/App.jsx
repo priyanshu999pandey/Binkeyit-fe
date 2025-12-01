@@ -33,6 +33,8 @@ import ProductListPage from './pages/ProductListPage'
 import ProductDisplayPage from './pages/ProductDisplayPage'
 import Product from './pages/Product'
 import GlobalProvider from './provider/GlobalProvider'
+import AddToCartMobileLink from './components/AddToCartMobileLink'
+import ViewCart from './pages/ViewCart'
 
 
 function App() {
@@ -64,9 +66,6 @@ function App() {
   };
 
 
-  
-   
-
   useEffect(()=>{
     fetchUser()
     fetchCategoryData();
@@ -78,7 +77,7 @@ function App() {
   
 
   return (
-    <GlobalProvider>
+    <GlobalProvider >
     <Header/>
       <main className='min-h-[78vh]'>
           <Routes >
@@ -92,6 +91,7 @@ function App() {
           <Route path='/user' element={<AccountMenuMobile/>} />
           <Route path=':category/:subcategory' element={<ProductListPage/>} />
           <Route path='/:category' element={<Product/>} />
+          <Route path='/cart' element={<ViewCart/>} />
           
           <Route path='/product/:product' element={<ProductDisplayPage/>} />
 
@@ -107,7 +107,9 @@ function App() {
 
         </Routes>
       </main>
+      <AddToCartMobileLink />
     <Footer/>
+   
     <Toaster position="top-right" reverseOrder={false} />
     </GlobalProvider>
     

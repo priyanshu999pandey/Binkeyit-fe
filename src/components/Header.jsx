@@ -10,50 +10,42 @@ import { VscTriangleDown } from "react-icons/vsc";
 import AccountMenu from "../utils/AccountMenu";
 import { VscTriangleUp } from "react-icons/vsc";
 import Axios from "../utils/Axios";
+import GlobalProvider, { GlobalContext, useGlobalContext } from "../provider/GlobalProvider";
 
 const Header = () => {
-  const cartItem = useSelector((state)=>state.cart.cartItem)
-  console.log(cartItem)
-  // const c = useSelector((state)=>state.product.allCategory)
-  // console.log("CartQUANTITY",cartItem);
 
-  // const fetchproductPrice = async()=>{
-  //   try {
-  //      const res = await Axios.get("/cart/get")
-  //      console.log("price res",res);
-       
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-  
+  const cartItem = useSelector((state)=>state.cart.cartItem)
   const navigate = useNavigate()
 
   const [isOpenMenu,setIsOpenMenu] = useState(false);
   const [isMobile] = useMobile();
-  const [cartQuantity,setCartQuantity] = useState(0)
-  const [price,setPrice] = useState(0)
-  // console.log("isMObile", isMobile);
 
-  const calculateCartItem = ()=>{
+  const {cartQuantity,price} = useGlobalContext()
+  console.log("price",price)
+  // const [cartQuantity,setCartQuantity] = useState(0)
+  // const [price,setPrice] = useState(0)
 
-    const cartQty = cartItem.reduce((accu,item)=>{
-      return accu + item.quantity
-     },0)
-    const finalPrice = cartItem.reduce((accu,item)=>{
-      return accu + item.productId.price
-     },0)
-    //  console.log("cartQYT",cartQty)
-    //  console.log("price",price)
+  // const calculateCartItem = ()=>{
 
-     setCartQuantity(cartQty)
-     setPrice(finalPrice)
-  }
+  //   const cartQty = cartItem.reduce((accu,item)=>{
+  //     return accu + item.quantity
+  //    },0)
+  //   const finalPrice = cartItem.reduce((accu,item)=>{
+  //     // console.log("item",item.quantity);
+      
+  //     return accu + (item.productId.price * item.quantity )
+      
+  //    },0)
+  //   //  console.log("cartQYT",cartQty)
+  //    console.log("price",finalPrice)
 
-  useEffect(()=>{
-       calculateCartItem()
-      //  fetchproductPrice()
-  },[cartItem])
+  //    setCartQuantity(cartQty)
+  //    setPrice(finalPrice)
+  // }
+
+  // useEffect(()=>{
+  //      calculateCartItem()
+  // },[cartItem])
 
   const location = useLocation();
   const { user } = useSelector((state) => state?.user);
@@ -125,13 +117,13 @@ const Header = () => {
                  
               }
 
-              <div className="flex justify-center items-center bg-green-800 text-white gap-2 px-4 py-2 rounded-sm hover:bg-green-700">
+            <div className="flex justify-center items-center bg-green-800 text-white gap-2 px-4 py-2 rounded-sm hover:bg-green-700">
                 <div className="animate-bounce ">
                   <GiShoppingCart size={28} />
                 </div>
                 {
-                  cartItem[0]?(<div>
-                    <p> {cartQuantity}</p>
+                  cartItem[0]?(<div className="text-xs">
+                    <p> {cartQuantity} Item</p>
                     <p>₹{Number(price)}.00</p>
                   </div>):
                   (<div>

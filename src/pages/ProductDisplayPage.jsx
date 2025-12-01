@@ -8,6 +8,7 @@ import minute_delivery from "../assets/minute_delivery.png";
 import Best_Prices_Offers from "../assets/Best_Prices_Offers.png";
 import Wide_Assortment from "../assets/Wide_Assortment.png";
 import { priceWithDiscount } from "../utils/Discount";
+import AddToCartButton from "../components/AddToCartButton";
 
 const ProductDisplayPage = () => {
   const containerScroll = useRef();
@@ -20,7 +21,7 @@ const ProductDisplayPage = () => {
     containerScroll.current.scrollLeft += 100;
   };
   const params = useParams();
-  console.log("params", params);
+  // console.log("params", params);
 
   const [data, setData] = useState({
     name: "",
@@ -46,6 +47,8 @@ const ProductDisplayPage = () => {
         productId: productId,
       });
 
+      console.log("productDetailById",res)
+
       // log full response
 
       // console.log("API response data:", res.data.data);
@@ -59,7 +62,9 @@ const ProductDisplayPage = () => {
         discount: res?.data?.data?.discount,
         description: res?.data?.data?.description,
         more_details: res?.data?.data?.more_details,
+        _id:res?.data?.data?._id,
       });
+      
 
       // setImage(res?.data?.data?.image[0])
 
@@ -82,8 +87,8 @@ const ProductDisplayPage = () => {
 
       // Helpful debug hint in console
       if (error?.response) {
-        console.log("Status:", error.response.status);
-        console.log("Response body:", error.response.data);
+        // console.log("Status:", error.response.status);
+        // console.log("Response body:", error.response.data);
       } else {
         console.log("No response (network error?)");
       }
@@ -188,9 +193,9 @@ const ProductDisplayPage = () => {
             <p className=" mb-2   text-xl text-green-800">
               {data.discount}% <span className="text-sm">Discount</span>
             </p>
-            <button className="bg-green-800 text-white px-8 rounded py-2 mt-2">
-              Add
-            </button>
+             <div>
+              <AddToCartButton data={data} />
+             </div>
           </div>
           <div className="mt-10 flex flex-col gap-3">
             <p className=" font-medium text-md">Why shop from binkeyit?</p>
