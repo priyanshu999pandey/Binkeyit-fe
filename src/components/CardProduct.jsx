@@ -9,6 +9,7 @@ import { useGlobalContext } from "../provider/GlobalProvider";
 import AddToCart from "./AddToCartButton";
 
 const CardProduct = ({ data }) => {
+  // console.log("data",data)
   
   const url = `/product/${ValidUrlConvert(data?.name)}-${ValidUrlConvert(
     data?._id

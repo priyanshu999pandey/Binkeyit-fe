@@ -16,7 +16,7 @@ const AddToCartButton = ({data}) => {
 
   const cartItems = useSelector((state)=>state.cart.cartItem)
 
-  console.log(data);
+  console.log(data);  
   
   // console.log("cardData",data)
   // console.log("cardItems",cartItems)
@@ -30,14 +30,14 @@ const AddToCartButton = ({data}) => {
 
   useEffect(()=>{
     const checkingitem = cartItems.some(item => item.productId._id === data._id)
-     console.log(checkingitem);
+    //  console.log(checkingitem);
     setIsAvailableCart(checkingitem)
    
 
     const product = cartItems.find( item => item.productId._id === data._id)
     setQty(product?.quantity)
     setCartItemDetail(product)
-    console.log(product)
+    // console.log(product)
     
   },[cartItems,location.pathname])
 

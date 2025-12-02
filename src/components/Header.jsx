@@ -11,6 +11,7 @@ import AccountMenu from "../utils/AccountMenu";
 import { VscTriangleUp } from "react-icons/vsc";
 import Axios from "../utils/Axios";
 import GlobalProvider, { GlobalContext, useGlobalContext } from "../provider/GlobalProvider";
+import DisplayCartItems from "./DisplayCartItems";
 
 const Header = () => {
 
@@ -19,9 +20,11 @@ const Header = () => {
 
   const [isOpenMenu,setIsOpenMenu] = useState(false);
   const [isMobile] = useMobile();
+  const [openCartDialoug,setOpenCartDialoug] = useState(false)
+  // console.log(openCartDialoug);
 
   const {cartQuantity,price} = useGlobalContext()
-  console.log("price",price)
+  // console.log("price",price)
   // const [cartQuantity,setCartQuantity] = useState(0)
   // const [price,setPrice] = useState(0)
 
@@ -63,7 +66,7 @@ const Header = () => {
   }
 
   return (
-    <header className="  h-24 py-2 px-3 lg:h-20 lg:py-4 shadow-md sticky top-0 bg-slate-100 z-90">
+    <header className="  h-24 py-2 px-3 lg:h-20 lg:py-4 shadow-md sticky top-0 bg-slate-100 z-70">
       {!(isSearhPage && isMobile) && (
         <div className="  w-full container mx-auto  flex justify-between items-center">
           {/* logo */}
@@ -117,7 +120,12 @@ const Header = () => {
                  
               }
 
-            <div className="flex justify-center items-center bg-green-800 text-white gap-2 px-4 py-2 rounded-sm hover:bg-green-700">
+            <div className="flex justify-center items-center bg-green-800 text-white gap-2 px-4 py-2 rounded-sm hover:bg-green-700" onClick={()=>{
+              console.log("clicked");
+              setOpenCartDialoug(true)
+              
+              
+            }} >
                 <div className="animate-bounce ">
                   <GiShoppingCart size={28} />
                 </div>
@@ -138,6 +146,12 @@ const Header = () => {
 
       <div className="py-2 lg:hidden">
         <Search />
+      </div>
+
+      <div>
+         {
+          openCartDialoug && <DisplayCartItems close={setOpenCartDialoug} cartItem={cartItem} />
+         }
       </div>
     </header>
   );

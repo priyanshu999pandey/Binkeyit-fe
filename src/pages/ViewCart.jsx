@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
+import DisplayCartItems from '../components/DisplayCartItems'
 
 const ViewCart = () => {
+    const [openCartDialoug,setOpenCartDialoug] = useState(true)
   return (
-    <div>ViewCart</div>
+    <div className=''>
+           
+        <DisplayCartItems close={setOpenCartDialoug}  />
+    
+    </div>
   )
 }
 

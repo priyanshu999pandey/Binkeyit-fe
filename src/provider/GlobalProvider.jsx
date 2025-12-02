@@ -4,6 +4,7 @@ import { handleAddItemCart } from "../store/cartProductSlice";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import {priceWithDiscount} from "../utils/Discount.js"
+// import { handleAddItemCart } from "../store/cartProductSlice";
 
 export const GlobalContext = createContext(null);
 export const useGlobalContext = () => useContext(GlobalContext);
@@ -11,8 +12,10 @@ export const useGlobalContext = () => useContext(GlobalContext);
 const GlobalProvider = ({ children }) => {
   const dispatch = useDispatch();
     const cartItem = useSelector((state)=>state.cart.cartItem)
+    const user = useSelector((state)=>state.user.user)
   const [cartQuantity,setCartQuantity] = useState(0)
   const [price,setPrice] = useState(0)
+  const [priceWithoutDiscount,setPriceWithoutDiscount] = useState(0)
 
   const fetchCartData = async () => {
     try {
@@ -67,12 +70,28 @@ const GlobalProvider = ({ children }) => {
         return accu + ( priceWithDiscount(item.productId.price,item.productId.discount)* item.quantity )
         
        },0)
+
+       const finalPriceWithoutDiscount = cartItem.reduce((accu,item)=>{
+        // console.log("item",item.quantity);
+        
+        return  accu + item.productId.price* item.quantity 
+        
+       },0)
+
+     
+
       //  console.log("cartQYT",cartQty)
-       console.log("price",finalPrice)
+      //  console.log("price",finalPrice)
   
        setCartQuantity(cartQty)
        setPrice(finalPrice)
+       setPriceWithoutDiscount(finalPriceWithoutDiscount-finalPrice)
  }
+
+   const handleLogout = ()=>{
+           localStorage.clear()
+           dispatch(handleAddItemCart([]))
+       }
   
     useEffect(()=>{
          calculateCartItem()
@@ -80,7 +99,8 @@ const GlobalProvider = ({ children }) => {
 
     useEffect(() => {
         fetchCartData();
-    },[]);
+        handleLogout()
+    },[user]);
 
   return (
     <GlobalContext.Provider
@@ -90,6 +110,8 @@ const GlobalProvider = ({ children }) => {
         deleteCartItem,
         cartQuantity,
         price,
+        priceWithoutDiscount,
+        cartQuantity
       }}
     >
       {children}

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import Header from './components/Header'
-import { Routes,Route } from 'react-router-dom'
+import { Routes,Route, useLocation } from 'react-router-dom'
 import Footer from './components/Footer'
 import Home from './pages/Home'
 import SearchPage from './pages/SearchPage'
@@ -35,9 +35,14 @@ import Product from './pages/Product'
 import GlobalProvider from './provider/GlobalProvider'
 import AddToCartMobileLink from './components/AddToCartMobileLink'
 import ViewCart from './pages/ViewCart'
+import CheckOutPage from './pages/CheckOutPage'
 
 
 function App() {
+
+  const path = useLocation()
+  console.log("path",path)
+
   const loading = useSelector((state)=>state.product.loadingCategory)
   const dispatch = useDispatch();
 
@@ -92,6 +97,7 @@ function App() {
           <Route path=':category/:subcategory' element={<ProductListPage/>} />
           <Route path='/:category' element={<Product/>} />
           <Route path='/cart' element={<ViewCart/>} />
+          <Route path='/checkoutpage' element={<CheckOutPage/>} />
           
           <Route path='/product/:product' element={<ProductDisplayPage/>} />
 
@@ -107,7 +113,9 @@ function App() {
 
         </Routes>
       </main>
-      <AddToCartMobileLink />
+     {
+       path.pathname !== "/cart" &&  <AddToCartMobileLink />
+     }
     <Footer/>
    
     <Toaster position="top-right" reverseOrder={false} />

@@ -67,6 +67,7 @@ const CategoryWiseProductDisplay = ({ id,name }) => {
       <div className="flex items-center gap-2 md:gap-4 lg:gap-6 overflow-x-auto  p-4 scrollbar-hide  scroll-smooth" ref={scrollRef}>
             {
                 data.map((p,index)=>{
+                  // console.log("p",p)
                    return <div className="">
                     <CardProduct key={index+"product"} data={p} />
                    </div>

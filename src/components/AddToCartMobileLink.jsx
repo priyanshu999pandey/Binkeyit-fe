@@ -8,11 +8,12 @@ import { useSelector } from 'react-redux';
 const AddToCartMobileLink = () => {
     const {cartQuantity,price} = useGlobalContext()
     const cartItem = useSelector((state)=>state.cart.cartItem)
+    
   return ( 
 
   <>
   {
-    cartItem[0] && (  <div className=' z-90 mb-4 bottom-10  bg-green-800 text-white sticky h-15 mx-4 rounded md:hidden lg:hidden '>
+    cartItem[0] && (  <div className=' z-70 mb-4 bottom-10  bg-green-800 text-white sticky h-15 mx-4 rounded md:hidden lg:hidden '>
         <div className='w-full h-full flex items-center justify-between px-4'>
         <div className='flex gap-2'>
             <div className='flex items-center p-1 bg-green-600 rounded '>
