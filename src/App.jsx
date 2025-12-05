@@ -37,6 +37,8 @@ import AddToCartMobileLink from './components/AddToCartMobileLink'
 import ViewCart from './pages/ViewCart'
 import CheckOutPage from './pages/CheckOutPage'
 import Address from './pages/Address'
+import OrderSuccess from './pages/OrderSuccess'
+import OrderCancel from './pages/OrderCancel'
 
 
 function App() {
@@ -100,6 +102,8 @@ function App() {
           <Route path='/:category' element={<Product/>} />
           <Route path='/cart' element={<ViewCart/>} />
           <Route path='/checkoutpage' element={<CheckOutPage/>} />
+          <Route path='/success' element={<OrderSuccess/>} />
+          <Route path='/cancel' element={<OrderCancel/>} />
           
           <Route path='/product/:product' element={<ProductDisplayPage/>} />
 
